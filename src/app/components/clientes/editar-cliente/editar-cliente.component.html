@@ -1,0 +1,106 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+
+
+
+<!-- Page title-->
+<div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Clientes</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+        <p class="text-muted">Este módulo actualiza a un cliente de la tienda.</p>
+
+    </div>
+</div>
+
+
+<form #updateClienteForms="ngForm" (ngSubmit)="updateCliente(updateClienteForms)">
+    <div class="card box-shadow-sm">
+        <div class="card-header">
+            <h5 style="margin-bottom: 0px;">Actualizar Cliente</h5>
+        </div>
+        <ng-container *ngIf="loadingDataTabla">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="sr-only">Loading.....</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!loadingDataTabla">
+            <div class="card-body" *ngIf="cliente != undefined">
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label for="validationCustom01" class="form-label">Nombres</label>
+                        <input class="form-control" type="text" placeholder="Nombres Completos" name="nombres"
+                            [(ngModel)]="cliente.nombres" required>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="validationCustom01" class="form-label">Apellidos</label>
+                        <input class="form-control" type="text" placeholder="Apellidos Completos" name="apellidos"
+                            [(ngModel)]="cliente.apellidos" required>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="validationCustom01" class="form-label">Correo electrónico</label>
+                        <input class="form-control" type="text" placeholder="Correo electrónico" name="email"
+                            [(ngModel)]="cliente.email" required>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label for="validationCustom01" class="form-label">Telefono</label>
+                        <input class="form-control" type="text" placeholder="Telefono" name="telefono"
+                            [(ngModel)]="cliente.telefono" required>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="validationCustom01" class="form-label">Fecha nacimiento</label>
+                        <input class="form-control" type="date" name="f_nacimiento" [(ngModel)]="cliente.f_nacimiento"
+                            required>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="validationCustom01" class="form-label">DNI</label>
+                        <input class="form-control" type="number" placeholder="Cedula" name="cedula"
+                            [(ngModel)]="cliente.cedula" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="validationCustom01" class="form-label">Género</label>
+                        <select class="form-control custom-select" name="genero" [(ngModel)]="cliente.genero" required>
+                            <option value="" disabled selected>Seleccionar...</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+
+                    <!-- <div class="col-md-4 form-group">
+                    <label for="validationCustom01" class="form-label">Contraseña</label>
+                    <input class="form-control" type="password" placeholder="Clave" name="password"
+                        [(ngModel)]="clientes.password" required>
+                </div> -->
+                </div>
+            </div>
+            <!-- si no hay data saldra este bloque  -->
+            <div class="card-body" *ngIf="cliente == undefined">
+                <h3 class="text-center bg-faded-danger">No se encontro el registro :( </h3>
+                <div class="row">
+                    <div class="col-3 mx-auto">
+                        <img src="assets/img/error.png" alt="" style="width: 100%;">
+                    </div>
+                </div>
+            </div>
+            <!-- si no hay data saldra este bloque  -->
+        </ng-container>
+
+
+        <div class="card-footer">
+            <button *ngIf="!loadingData" class="btn btn-success mr-3" type="submit">Actualizar cliente</button>
+            <button *ngIf="loadingData" class="btn btn-secondary" disabled>
+                <span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true">Actualizando....</span>
+            </button>
+            <button class="btn btn-warning" [routerLink]="['/panel/clientes']">Regresar</button>
+        </div>
+    </div>
+</form>
