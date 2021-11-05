@@ -96,10 +96,10 @@
 
 
         <div class="card-footer">
-            <button *ngIf="!loadingData" class="btn btn-success mr-3" type="submit">Actualizar cliente</button>
-            <button *ngIf="loadingData" class="btn btn-secondary" disabled>
+            <button class="btn btn-success mr-3" type="submit">Actualizar cliente</button>
+            <!-- <button *ngIf="loadingData" class="btn btn-secondary" disabled>
                 <span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true">Actualizando....</span>
-            </button>
+            </button> -->
             <button class="btn btn-warning" [routerLink]="['/panel/clientes']">Regresar</button>
         </div>
     </div>

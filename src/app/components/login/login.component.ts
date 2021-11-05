@@ -44,20 +44,25 @@ export class LoginComponent implements OnInit {
       this._adminService.login_admin(data).subscribe(
         response => {
           // console.log(response);
-          iziToast.show({
-            title: 'SUCCESS',
-            titleColor: 'green',
-            class: 'text-green',
-            position: 'topRight',
-            color: 'green',
-            // animateInside: true,
-            message: response.message
-          });
-          this.usuario = response.data;
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('_id', response.data._id);
-          this._router.navigate(['/'])
+          if (response.data == undefined) {
 
+          } else {
+            this.usuario = response.data;
+
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('_id', response.data._id);
+            iziToast.show({
+              title: 'Success',
+              titleColor: 'FF0000',
+              class: 'text-danger',
+              color: 'green',
+              position: 'topRight',
+              message: response.message
+            });
+
+            this._router.navigate(['/']);
+
+          }
         }, error => {
           // console.log(error);
           iziToast.show({

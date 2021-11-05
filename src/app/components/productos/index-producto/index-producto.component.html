@@ -1,0 +1,148 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+
+<!-- Page title-->
+<!-- Page title-->
+<div class="border-bottom pt-1 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Productos</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+        <p class="text-muted">Este módulo lista todos los productos de la tienda.</p>
+        <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap"
+                [routerLink]="['/panel/productos/registro']" rel="noopener">Registrar
+                nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i></a></p>
+    </div>
+</div>
+
+
+<div class="card box-shadow-sm">
+    <div class="card-header">
+        <h5 style="margin-bottom: 0px;">Filtro de Productos</h5>
+    </div>
+    <div class="card-header">
+        <div class="row">
+            <div class="col-6">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Ingrese el nombre del Producto" name="filtro"
+                        [(ngModel)]="filtro">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary mr-3" type="button" (click)="filtrar()">Buscar</button>
+                        <button class="btn btn-info" type="button" (click)="reset()">Reset</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <button class="btn btn-success" (click)="download_excel()">Exportar a Excel</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Titulo</th>
+                        <th>Stock</th>
+                        <th>Precio</th>
+                        <th>Categoria</th>
+                        <th>Ventas</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <!-- spinner de carga -->
+                <tbody *ngIf="loadingData">
+                    <tr>
+                        <td class="text-center" colspan="7">
+                            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading.....</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- spinner de carga -->
+                <ng-container *ngIf="!loadingData">
+                    <tbody
+                        *ngFor="let producto of productos | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i = index;">
+                        <tr>
+                            <td>{{i + 1}}</td>
+                            <td>
+                                <h6 style="padding-bottom: 0; margin-bottom: 0;">
+                                    <img style="width: 50px;" [src]="url +'obtener_portada/'+ producto.portada"
+                                        class="img-thumbnail rounded-0" alt="Squared Img">
+                                    {{producto.titulo}}
+                                </h6>
+                            </td>
+                            <td>{{producto.stock}}</td>
+                            <td>{{producto.precio | currency:'USD'}}</td>
+                            <td>{{producto.categoria}}</td>
+                            <td>{{producto.nventas}}</td>
+                            <td>
+                                <div class="btn-group dropdown d-inline-block mb-3 mr-2">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Opciones
+                                    </button>
+                                    <div class="dropdown-menu" style="">
+                                        <a class="dropdown-item"
+                                            [routerLink]="['/panel/productos/editar', producto._id]">Editar
+                                            Producto</a>
+                                        <a class="dropdown-item" style="cursor: pointer;" data-toggle="modal"
+                                            [attr.data-target]="'#delete-' + producto._id">Eliminar Producto</a>
+                                        <!-- <div class="dropdown-divider"></div> -->
+                                        <!-- <a href="#" class="dropdown-item">Something else here</a> -->
+                                        <a class="dropdown-item"
+                                            [routerLink]="['/panel/productos/inventario', producto._id]">Inventario
+                                            Producto</a>
+                                        <a class="dropdown-item"
+                                            [routerLink]="['/panel/productos/variedades', producto._id]">Variedades
+                                            Producto</a>
+                                        <a class="dropdown-item"
+                                            [routerLink]="['/panel/productos/galeria', producto._id]">Galería
+                                            Producto</a>
+                                    </div>
+                                </div>
+
+                                <!-- modal de confirmacion de eliminar -->
+                                <div class="modal fade" id="delete-{{producto._id}}" tabindex="-1"
+                                    style="display: none;" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Eliminar a {{producto.titulo}}
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Desea Eliminar este Producto?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary btn-sm"
+                                                    data-dismiss="modal">Cancelar</button>
+                                                <button type="button" class="btn btn-primary btn-shadow btn-sm"
+                                                    (click)="eliminarProducto(producto._id)">Si,
+                                                    Eliminar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- modal de confirmacion de eliminar -->
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </ng-container>
+
+            </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="productos.length">
+        </ngb-pagination>
+    </div>
+</div>

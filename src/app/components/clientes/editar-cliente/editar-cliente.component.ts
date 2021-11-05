@@ -17,7 +17,7 @@ export class EditarClienteComponent implements OnInit {
   };
   public id: any;
   public token: any;
-  public loadingData: boolean = false;
+  // public loadingData: boolean = false;
   public loadingDataTabla: boolean = true;
 
   constructor(private _route: ActivatedRoute,
@@ -32,8 +32,8 @@ export class EditarClienteComponent implements OnInit {
     this._route.params.subscribe(
       params => {
         this.id = params['id'];
-        console.log(this.id);
-        this._clienteService.byIdClientes(this.id, this.token).subscribe(
+        // console.log(this.id);
+        this._clienteService.obtener_cliente_admin(this.id, this.token).subscribe(
           resp => {
             // console.log(resp);
             if (resp.data == undefined) {
@@ -55,8 +55,8 @@ export class EditarClienteComponent implements OnInit {
   updateCliente(updateClienteForms: any) {
 
     if (updateClienteForms.valid) {
-      this.loadingData = true;
-      this._clienteService.modificarClientes(this.id, this.cliente).subscribe(
+      // this.loadingData = true;
+      this._clienteService.actualizar_cliente_admin(this.id, this.cliente, this.token).subscribe(
         resp => {
           // console.log(resp);
           iziToast.show({
@@ -68,7 +68,7 @@ export class EditarClienteComponent implements OnInit {
             // animateInside: true,
             message: resp.message
           });
-          this.loadingData = false;
+          // this.loadingData = false;
           this._router.navigate(['/panel/clientes']);
         }, error => {
           console.log(error);

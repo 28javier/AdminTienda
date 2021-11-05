@@ -14,7 +14,7 @@ export class CrearClienteComponent implements OnInit {
     genero: ''
   };
   public token;
-  public loadingData: boolean = false;
+  // public loadingData: boolean = false;
 
 
   constructor(private _clienteService: ClientesService,
@@ -29,8 +29,8 @@ export class CrearClienteComponent implements OnInit {
   registroCliente(registroClienteForms: any) {
     if (registroClienteForms.valid) {
       // console.log(this.cliente);
-      this.loadingData = true;
-      this._clienteService.createClientes(this.cliente).subscribe(
+      // this.loadingData = true;
+      this._clienteService.registro_cliente_admin(this.cliente, this.token).subscribe(
         res => {
           // console.log(res);
           iziToast.show({
@@ -39,20 +39,18 @@ export class CrearClienteComponent implements OnInit {
             class: 'text-green',
             position: 'topRight',
             color: 'green',
-            // animateInside: true,
             message: res.message
           });
-          this.loadingData = false;
+          // this.loadingData = false;
           this._router.navigate(['/panel/clientes']);
         }, error => {
-          // console.log(error);
+          console.log(error);
           iziToast.show({
             title: 'ERROR',
             titleColor: 'red',
             class: 'text-danger',
             position: 'topRight',
             color: 'red',
-            // animateInside: true,
             message: error.error.message
           });
         }
@@ -64,7 +62,6 @@ export class CrearClienteComponent implements OnInit {
         class: 'text-danger',
         position: 'topRight',
         color: 'red',
-        // animateInside: true,
         message: 'Datos Invalidos'
       });
     }

@@ -1,0 +1,6 @@
+Smartphones 	cxi-iphone
+Headphones	cxi-headset
+Oficina		cxi-attach
+Moda		cxi-hanger
+Alimentos	cxi-bag
+Hogar		cxi-home

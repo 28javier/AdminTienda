@@ -31,7 +31,7 @@ export class FiltrarClienteComponent implements OnInit {
   }
 
   getClientes() {
-    this._clienteService.getClientes(null, null, this.token).subscribe(
+    this._clienteService.listar_clientes_filtro_admin(null, null, this.token).subscribe(
       res => {
         // console.log(res);
         this.clientes = res.clientes;
@@ -50,7 +50,7 @@ export class FiltrarClienteComponent implements OnInit {
     if (tipo == 'apellidos') {
       if (this.filtrar_Apellidos) {
         this.loadingData = true;
-        this._clienteService.getClientes(tipo, this.filtrar_Apellidos, this.token).subscribe(
+        this._clienteService.listar_clientes_filtro_admin(tipo, this.filtrar_Apellidos, this.token).subscribe(
           res => {
             // console.log(res);
             this.clientes = res.clientes;
@@ -66,7 +66,7 @@ export class FiltrarClienteComponent implements OnInit {
     } else if (tipo == 'correo') {
       if (this.filtrar_Correo) {
         this.loadingData = true;
-        this._clienteService.getClientes(tipo, this.filtrar_Correo, this.token).subscribe(
+        this._clienteService.listar_clientes_filtro_admin(tipo, this.filtrar_Correo, this.token).subscribe(
           res => {
             // console.log(res);
             this.clientes = res.clientes;
@@ -83,9 +83,9 @@ export class FiltrarClienteComponent implements OnInit {
 
   }
   eliminarCliente(id: any) {
-    this._clienteService.deleteClientes(id, this.token).subscribe(
+    this._clienteService.eliminar_cliente_admin(id, this.token).subscribe(
       resp => {
-        console.log(resp);
+        // console.log(resp);
         iziToast.show({
           title: 'SUCCESS',
           titleColor: 'green',

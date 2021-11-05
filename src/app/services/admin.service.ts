@@ -15,6 +15,12 @@ export class AdminService {
 
   }
 
+  login_admin(data: any): Observable<any> {
+    // let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(this.url + 'login_admin', data);
+  }
+
+
   public isAuthenticated(allowRoles: string[]): boolean {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -40,9 +46,9 @@ export class AdminService {
     return localStorage.getItem('token');
   }
 
-  login_admin(data: any): Observable<any> {
-    // let headers = new HttpHeaders().set('Content-Type', 'aplication/json');
-    return this._http.post(this.url + 'admins/loginAdmin', data);
-  }
+  // login_admin(data: any): Observable<any> {
+  //   // let headers = new HttpHeaders().set('Content-Type', 'aplication/json');
+  //   return this._http.post(this.url + 'admins/loginAdmin', data);
+  // }
 
 }
